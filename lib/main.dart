@@ -71,14 +71,15 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final AppBar _appBar = AppBar(
+      title: const Text('Personal Expenses'),
+      actions: [
+        IconButton(onPressed: () => _startAddNewTransaction(context), icon: const Icon(Icons.add)),
+      ],
+    );
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Personal Expenses'),
-        actions: [
-          IconButton(
-              onPressed: () => _startAddNewTransaction(context), icon: const Icon(Icons.add)),
-        ],
-      ),
+      appBar: _appBar,
       floatingActionButton: FloatingActionButton(
         onPressed: () => _startAddNewTransaction(context),
         child: const Icon(Icons.add),
@@ -87,10 +88,21 @@ class _MyAppState extends State<MyApp> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Chart(recentTransactions: _recentTrancations),
-            TransactionList(
-              userTransactions: _userTransactions,
-              deleteTransaction: _deleteTransaction,
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        _appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.3,
+                child: Chart(recentTransactions: _recentTrancations)),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      _appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.8,
+              child: TransactionList(
+                userTransactions: _userTransactions,
+                deleteTransaction: _deleteTransaction,
+              ),
             )
           ],
         ),
